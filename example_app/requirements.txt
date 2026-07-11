@@ -1,0 +1,17 @@
+# Example application dependencies
+# Install with: pip install -r requirements.txt
+
+# Core dependencies (same as teslajsonpy)
+httpx>=0.23.0
+aiohttp>=3.8.0
+orjson>=3.8.0
+tenacity>=8.0.0
+beautifulsoup4>=4.11.0
+authcaptureproxy>=0.1.0
+h2>=4.0.0
+
+# Development (optional)
+pytest>=7.0.0
+black>=22.0.0
+flake8>=4.0.0
+mypy>=0.950

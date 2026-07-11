@@ -26,3 +26,4 @@
 -   ericdegroot [Github](https://github.com/ericdegroot)
 -   flaviorighi [Github](https://github.com/flaviorighi)
 -   djbadders [Github](https://github.com/djbadders)
+-   grzesiek1711 [Github](https://github.com/grzesiek1711/)

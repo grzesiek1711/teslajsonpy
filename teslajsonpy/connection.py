@@ -39,7 +39,7 @@ _LOGGER = logging.getLogger(__name__)
 class Connection:
     """Connection to Tesla Motors API."""
 
-    def __init__(
+    def __init__(  # pylint: disable=too-many-positional-arguments
         self,
         websession: httpx.AsyncClient,
         email: Text = None,
@@ -180,7 +180,7 @@ class Connection:
             "X-Tesla-User-Agent": self.user_agent
         }
 
-    async def __open(
+    async def __open(  # pylint: disable=too-many-positional-arguments,too-many-branches
         self,
         url: Text,
         method: Text = "get",
@@ -477,6 +477,7 @@ class Connection:
                     #     ]
                     # }
                     mfa_json = orjson.loads(mfa_resp.text)  # pylint: disable=no-member
+                    factor_id = None
                     if len(mfa_json.get("data", [])) >= 1:
                         factor_id = mfa_json["data"][mfa_device]["id"]
                     if not mfa_code:

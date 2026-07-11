@@ -89,6 +89,7 @@ venv/
 ENV/
 env.bak/
 venv.bak/
+.idea
 
 # Spyder project settings
 .spyderproject
@@ -109,3 +110,6 @@ venv.bak/
 
 # VS Code
 .vscode/
+
+# AI-Agents
+.kiro

@@ -1585,7 +1585,7 @@ class TeslaCar:
         elif option == "No A/C":
             body_on = True
             fan_only = True
-        elif option == "On":
+        else:  # option == "On"
             body_on = True
             fan_only = False
 
@@ -1748,6 +1748,7 @@ class TeslaCar:
             self._previous_passenger_temp = self.passenger_temp_setting
             self._previous_fan_status = self.fan_status
 
+            params = {}
             if state == 2:
                 params = {
                     "defrost_mode": state,
@@ -1758,7 +1759,7 @@ class TeslaCar:
                     "is_rear_defroster_on": True,
                     "passenger_temp_setting": self.max_avail_temp,
                 }
-            if state == 0:
+            elif state == 0:
                 params = {
                     "defrost_mode": state,
                     "driver_temp_setting": self._previous_driver_temp,
@@ -1929,15 +1930,15 @@ class TeslaCar:
             else:
                 self._vehicle_data["vehicle_state"].update({"remote_start": True})
 
-    async def set_scheduled_departure(
+    async def set_scheduled_departure(  # pylint: disable=too-many-positional-arguments
         self,
         enable: bool,
         departure_time: int,
-        preconditioning_enabled: bool,
-        preconditioning_weekdays_only: bool,
-        off_peak_charging_enabled: bool,
-        off_peak_charging_weekdays_only: bool,
-        end_off_peak_time: int,
+        preconditioning_enabled: bool = False,
+        preconditioning_weekdays_only: bool = False,
+        off_peak_charging_enabled: bool = False,
+        off_peak_charging_weekdays_only: bool = False,
+        end_off_peak_time: int = 0,
     ) -> None:
         """Send command to set departure time.
 

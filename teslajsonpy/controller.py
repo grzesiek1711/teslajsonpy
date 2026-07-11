@@ -94,7 +94,7 @@ class Controller:
     #  pylint: disable=too-many-public-methods
     """Controller for connections to Tesla Motors API."""
 
-    def __init__(
+    def __init__(  # pylint: disable=too-many-positional-arguments,too-many-locals
         self,
         websession: Optional[httpx.AsyncClient] = None,
         email: Text = None,
@@ -516,6 +516,7 @@ class Controller:
             )
 
     def _calculate_next_interval(self, vin: Text) -> int:
+        # pylint: disable=too-many-branches
         cur_time = round(time.time())
         _LOGGER.debug(
             "%s: %s. Polling policy: %s. Update state: %s. Since last park: %s. Since last wake up: %s. Idle interval: %s. shift_state: %s sentry: %s climate: %s, charging: %s ",
@@ -622,7 +623,7 @@ class Controller:
         vins: Optional[Set[str]] = None,
         energy_site_ids: Optional[Set[str]] = None,
     ) -> bool:
-        #  pylint: disable=too-many-locals,too-many-statements
+        #  pylint: disable=too-many-locals,too-many-statements,too-many-positional-arguments,too-many-branches
         """Update all vehicle and energy site attributes in the cache.
 
         This command will connect to the Tesla API and first update the list of
@@ -1320,8 +1321,7 @@ class Controller:
         _LOGGER.error("Could not determine correct vehicle ID for API communication: '%s'", vehicle_id)
         return None, None
 
-
-    async def api(
+    async def api(  # pylint: disable=too-many-branches
         self,
         name: str,
         path_vars=None,
