@@ -109,7 +109,8 @@ class Controller:
         auth_domain: str = AUTH_DOMAIN,
         api_proxy_url: str = None,
         api_proxy_cert: str = None,
-        client_id: str = CLIENT_ID
+        client_id: str = CLIENT_ID,
+        redirect_uri: str = "tesla://auth/callback",
     ) -> None:
         """Initialize controller.
 
@@ -134,6 +135,7 @@ class Controller:
             api_proxy_url (str, optional): HTTPS Proxy for Fleet API commands
             api_proxy_cert (str, optional): Custom SSL certificate to use with proxy
             client_id (str, optional): Required for modern vehicles using Fleet API
+            redirect_uri (str, optional): OAuth redirect URI. Defaults to 'tesla://auth/callback'.
 
         """
         if not websession or not isinstance(websession, httpx.AsyncClient):
@@ -161,6 +163,7 @@ class Controller:
             auth_domain=auth_domain,
             client_id=client_id,
             api_proxy_url=api_proxy_url,
+            redirect_uri=redirect_uri,
         )
         self._update_interval: int = update_interval
         self._driving_interval: int = driving_interval

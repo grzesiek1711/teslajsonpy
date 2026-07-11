@@ -51,10 +51,12 @@ class Connection:
         auth_domain: str = AUTH_DOMAIN,
         client_id: str = CLIENT_ID,
         api_proxy_url: str = None,
+        redirect_uri: str = "tesla://auth/callback",
     ) -> None:
         """Initialize connection object."""
         self.user_agent: Text = "TeslaApp/4.10.0"
         self.client_id = client_id
+        self.redirect_uri = redirect_uri
         if api_proxy_url is None:
             self.baseurl: Text = DOMAIN_KEY.get(
                 auth_domain[auth_domain.rfind(".") :], API_URL
@@ -75,8 +77,8 @@ class Connection:
         self.code_verifier: Text = secrets.token_urlsafe(64)
         self.code_challenge = str(
             base64.urlsafe_b64encode(
-                hashlib.sha256(self.code_verifier.encode()).hexdigest().encode()
-            ),
+                hashlib.sha256(self.code_verifier.encode()).digest()
+            ).rstrip(b"="),
             "utf-8",
         )
         self.code = authorization_token
@@ -439,7 +441,13 @@ class Connection:
         transaction_id: Text = data.get("transaction_id")
         for attempt in range(retry_limit):
             _LOGGER.debug("Attempt #%s", attempt)
-            resp = await self.websession.post(str(url), data=data)
+            # Add headers to maintain session and avoid 400 errors
+            headers = {
+                "User-Agent": self.user_agent,
+                "Referer": str(url),
+                "Content-Type": "application/x-www-form-urlencoded",
+            }
+            resp = await self.websession.post(str(url), data=data, headers=headers)
             _process_resp(resp)
             if not resp.history:
                 html = resp.text
@@ -516,8 +524,8 @@ class Connection:
             self.code_verifier: Text = secrets.token_urlsafe(64)
             self.code_challenge = str(
                 base64.urlsafe_b64encode(
-                    hashlib.sha256(self.code_verifier.encode()).hexdigest().encode()
-                ),
+                    hashlib.sha256(self.code_verifier.encode()).digest()
+                ).rstrip(b"="),
                 "utf-8",
             )
         state = secrets.token_urlsafe(64)
@@ -525,10 +533,12 @@ class Connection:
             "client_id": "ownerapi",
             "code_challenge": self.code_challenge,
             "code_challenge_method": "S256",
-            "redirect_uri": "https://auth.tesla.com/void/callback",
+            "redirect_uri": self.redirect_uri,
             "response_type": "code",
             "scope": "openid email offline_access",
             "state": state,
+            "locale": "en-US",
+            "prompt": "login",
         }
         url = self.auth_domain.with_path("/oauth2/v3/authorize")
         url = url.update_query(query)
@@ -546,11 +556,16 @@ class Connection:
             "grant_type": "authorization_code",
             "code": code,
             "code_verifier": self.code_verifier,
-            "redirect_uri": "https://auth.tesla.com/void/callback",
+            "redirect_uri": self.redirect_uri,
+        }
+        headers = {
+            "User-Agent": self.user_agent,
+            "Content-Type": "application/x-www-form-urlencoded",
         }
         auth = await self.websession.post(
             str(self.auth_domain.with_path("/oauth2/v3/token")),
             data=oauth,
+            headers=headers,
         )
         try:
             return orjson.loads(auth.text)  # pylint: disable=no-member
@@ -571,9 +586,14 @@ class Connection:
             "refresh_token": refresh_token,
             "scope": "openid email offline_access",
         }
+        headers = {
+            "User-Agent": self.user_agent,
+            "Content-Type": "application/x-www-form-urlencoded",
+        }
         auth = await self.websession.post(
             str(self.auth_domain.with_path("/oauth2/v3/token")),
             data=oauth,
+            headers=headers,
         )
         try:
             return orjson.loads(auth.text)  # pylint: disable=no-member

@@ -13,32 +13,38 @@ Async python module for Tesla API primarily for enabling Home-Assistant.
 
 ## Quick Start
 
+**Important Note on Authentication**: Tesla's OAuth endpoint requires the custom redirect URI `tesla://auth/callback` for programmatic authentication. The library handles this automatically. Additionally, Tesla's API now requires HTTP/2.
+
+### Option 1: Using Existing Access Token (Recommended)
+
 ```python
 import asyncio
 from httpx import AsyncClient
 from teslajsonpy import Controller
 
 async def main():
-    async with AsyncClient() as session:
+    async with AsyncClient(http2=True) as session:
         controller = Controller(
             websession=session,
-            email="user@example.com",
-            password="password",
+            access_token="your_access_token_here",
+            refresh_token="your_refresh_token_here",
         )
         
         await controller.connect()
-        vehicles = await controller.get_vehicles()
+        await controller.generate_car_objects()
+        vehicles = list(controller.cars.values())
         
         if vehicles:
             car = vehicles[0]
             print(f"Vehicle: {car.display_name}")
             print(f"Battery: {car.battery_level}%")
-            
-            # Start charging
-            await car.start_charge()
 
 asyncio.run(main())
 ```
+
+### Option 2: Using Local OAuth Proxy (Advanced)
+
+For programmatic email/password authentication with a proxy setup, use `TeslaProxy` from the library. See documentation for details.
 
 ## Features
 
@@ -101,7 +107,8 @@ For a comprehensive guide to all documentation, see [docs/summary/index.md](docs
 
 ```python
 await controller.update()  # Poll all vehicles
-car = (await controller.get_vehicles())[0]
+await controller.generate_car_objects()
+car = list(controller.cars.values())[0]
 
 print(f"Battery: {car.battery_level}%")
 print(f"Charging: {car.charging_state}")
@@ -115,19 +122,25 @@ print(f"Location: {car.latitude}, {car.longitude}")
 result = await car.start_charge()
 ```
 
+> **Note:** Modern vehicles (built after ~2021, except pre-2021 Model S/X) require
+> the Tesla Vehicle Command Protocol. Commands must be signed and routed through
+> Tesla's Fleet API HTTP proxy (configure `client_id`, `api_proxy_url`, and
+> `api_proxy_cert` on the `Controller`); otherwise command endpoints return HTTP 403.
+
 ### Monitor Real-Time Updates
 
 ```python
 async def on_update(msg):
     print(f"Vehicle update: {msg}")
 
-await controller.register_websocket_callback(on_update)
+# register_websocket_callback is synchronous; it returns the listener index
+controller.register_websocket_callback(on_update)
 ```
 
 ### Manage Energy
 
 ```python
-sites = await controller.get_energysites()
+sites = list(controller.energysites.values())
 site = sites[0]
 
 print(f"Solar: {site.solar_power}W")

@@ -219,7 +219,7 @@ class TeslaCar:
     def bioweapon_mode(self) -> bool:
         """Return bioweapon defense mode."""
         return self._vehicle_data.get("climate_state", {}).get("bioweapon_mode")
-    
+
     @property
     def climate_keeper_mode(self) -> str:
         """Return climate keeper mode mode.
@@ -449,6 +449,98 @@ class TeslaCar:
         return self._vehicle_data.get("climate_state", {}).get("passenger_temp_setting")
 
     @property
+    def left_temp_setting(self) -> float:
+        """Return left seat temperature setting."""
+        return self._vehicle_data.get("climate_state", {}).get("left_temp_setting")
+
+    @property
+    def right_temp_setting(self) -> float:
+        """Return right seat temperature setting."""
+        return self._vehicle_data.get("climate_state", {}).get("right_temp_setting")
+
+    @property
+    def is_preconditioning(self) -> bool:
+        """Return if preconditioning is on."""
+        return self._vehicle_data.get("climate_state", {}).get("is_preconditioning")
+
+    @property
+    def is_auto_conditioning_on(self) -> bool:
+        """Return if auto conditioning is on."""
+        return self._vehicle_data.get("climate_state", {}).get("is_auto_conditioning_on")
+
+    @property
+    def is_battery_heater_on(self) -> bool:
+        """Return if battery heater is on."""
+        return self._vehicle_data.get("climate_state", {}).get("is_battery_heater_on")
+
+    @property
+    def is_battery_preconditioning(self) -> bool:
+        """Return if battery preconditioning is on."""
+        return self._vehicle_data.get("climate_state", {}).get("is_battery_preconditioning")
+
+    @property
+    def is_front_defroster_on(self) -> bool:
+        """Return if front defroster is on."""
+        return self._vehicle_data.get("climate_state", {}).get("is_front_defroster_on")
+
+    @property
+    def is_rear_defroster_on(self) -> bool:
+        """Return if rear defroster is on."""
+        return self._vehicle_data.get("climate_state", {}).get("is_rear_defroster_on")
+
+    @property
+    def seat_cooler_left(self) -> int:
+        """Return left seat cooler level."""
+        return self._vehicle_data.get("climate_state", {}).get("seat_cooler_left")
+
+    @property
+    def seat_cooler_right(self) -> int:
+        """Return right seat cooler level."""
+        return self._vehicle_data.get("climate_state", {}).get("seat_cooler_right")
+
+    @property
+    def seat_heater_rear_left(self) -> int:
+        """Return rear left seat heater level."""
+        return self._vehicle_data.get("climate_state", {}).get("seat_heater_rear_left")
+
+    @property
+    def seat_heater_rear_right(self) -> int:
+        """Return rear right seat heater level."""
+        return self._vehicle_data.get("climate_state", {}).get("seat_heater_rear_right")
+
+    @property
+    def seat_heater_rear_center(self) -> int:
+        """Return rear center seat heater level."""
+        return self._vehicle_data.get("climate_state", {}).get("seat_heater_rear_center")
+
+    @property
+    def seat_heater_third_row_left(self) -> int:
+        """Return third row left seat heater level."""
+        return self._vehicle_data.get("climate_state", {}).get("seat_heater_third_row_left")
+
+    @property
+    def seat_heater_third_row_right(self) -> int:
+        """Return third row right seat heater level."""
+        return self._vehicle_data.get("climate_state", {}).get("seat_heater_third_row_right")
+
+    @property
+    def third_row_heaters(self) -> list:
+        """Return third row heaters state."""
+        return self._vehicle_data.get("climate_state", {}).get("third_row_heaters")
+
+    @property
+    def cabin_overheat_protection_actively_cooling(self) -> bool:
+        """Return if cabin overheat protection is actively cooling."""
+        return self._vehicle_data.get("climate_state", {}).get(
+            "cabin_overheat_protection_actively_cooling"
+        )
+
+    @property
+    def cop_activation_temperature(self) -> str:
+        """Return cabin overheat protection activation temperature."""
+        return self._vehicle_data.get("climate_state", {}).get("cop_activation_temperature")
+
+    @property
     def power(self) -> int:
         """Return power."""
         return self._vehicle_data.get("drive_state", {}).get("power")
@@ -591,6 +683,538 @@ class TeslaCar:
     def is_valet_mode(self) -> bool:
         """Return state of valet mode."""
         return self._vehicle_data.get("vehicle_state", {}).get("valet_mode")
+
+    @property
+    def center_display_state(self) -> int:
+        """Return center display state."""
+        return self._vehicle_data.get("vehicle_state", {}).get("center_display_state")
+
+    @property
+    def middle_display_state(self) -> int:
+        """Return middle display state."""
+        return self._vehicle_data.get("vehicle_state", {}).get("middle_display_state")
+
+    @property
+    def carplay_state(self) -> int:
+        """Return carplay state."""
+        return self._vehicle_data.get("vehicle_state", {}).get("carplay_state")
+
+    @property
+    def api_version(self) -> int:
+        """Return API version."""
+        return self._vehicle_data.get("vehicle_state", {}).get("api_version")
+
+    @property
+    def autopark_state_v2(self) -> str:
+        """Return autopark state v2."""
+        return self._vehicle_data.get("vehicle_state", {}).get("autopark_state_v2")
+
+    @property
+    def autopark_style(self) -> str:
+        """Return autopark style."""
+        return self._vehicle_data.get("vehicle_state", {}).get("autopark_style")
+
+    @property
+    def body_color_rgb(self) -> str:
+        """Return body color RGB."""
+        return self._vehicle_data.get("vehicle_state", {}).get("body_color_rgb")
+
+    @property
+    def body_type(self) -> str:
+        """Return body type."""
+        return self._vehicle_data.get("vehicle_state", {}).get("body_type")
+
+    @property
+    def brake_type_rear(self) -> str:
+        """Return rear brake type."""
+        return self._vehicle_data.get("vehicle_state", {}).get("brake_type_rear")
+
+    @property
+    def charging_cable_type(self) -> str:
+        """Return charging cable type."""
+        return self._vehicle_data.get("vehicle_state", {}).get("charging_cable_type")
+
+    @property
+    def dashcam_state(self) -> str:
+        """Return dashcam state."""
+        return self._vehicle_data.get("vehicle_state", {}).get("dashcam_state")
+
+    @property
+    def dashcam_video_mode(self) -> int:
+        """Return dashcam video mode."""
+        return self._vehicle_data.get("vehicle_state", {}).get("dashcam_video_mode")
+
+    @property
+    def door_rp(self) -> int:
+        """Return rear passenger door status."""
+        return self._vehicle_data.get("vehicle_state", {}).get("rp")
+
+    @property
+    def door_rd(self) -> int:
+        """Return rear driver door status."""
+        return self._vehicle_data.get("vehicle_state", {}).get("rd")
+
+    @property
+    def doors_state(self) -> list:
+        """Return doors state."""
+        return self._vehicle_data.get("vehicle_state", {}).get("doors_state")
+
+    @property
+    def epic_type(self) -> str:
+        """Return epic type."""
+        return self._vehicle_data.get("vehicle_state", {}).get("epic_type")
+
+    @property
+    def exterior_color(self) -> str:
+        """Return exterior color."""
+        return self._vehicle_data.get("vehicle_state", {}).get("exterior_color")
+
+    @property
+    def front_drive_unit(self) -> str:
+        """Return front drive unit."""
+        return self._vehicle_data.get("vehicle_state", {}).get("front_drive_unit")
+
+    @property
+    def front_drive_unit_version(self) -> str:
+        """Return front drive unit version."""
+        return self._vehicle_data.get("vehicle_state", {}).get(
+            "front_drive_unit_version"
+        )
+
+    @property
+    def front_seat_heaters(self) -> int:
+        """Return front seat heaters."""
+        return self._vehicle_data.get("vehicle_state", {}).get("front_seat_heaters")
+
+    @property
+    def front_seat_leg_rests(self) -> int:
+        """Return front seat leg rests."""
+        return self._vehicle_data.get("vehicle_state", {}).get("front_seat_leg_rests")
+
+    @property
+    def gps_as_of(self) -> int:
+        """Return GPS timestamp."""
+        return self._vehicle_data.get("vehicle_state", {}).get("gps_as_of")
+
+    @property
+    def gps_signal_strength(self) -> int:
+        """Return GPS signal strength."""
+        return self._vehicle_data.get("vehicle_state", {}).get("gps_signal_strength")
+
+    @property
+    def guest_mode(self) -> bool:
+        """Return guest mode state."""
+        return self._vehicle_data.get("vehicle_state", {}).get("guest_mode")
+
+    @property
+    def guarded_charge_port_detected(self) -> bool:
+        """Return if guarded charge port detected."""
+        return self._vehicle_data.get("vehicle_state", {}).get(
+            "guarded_charge_port_detected"
+        )
+
+    @property
+    def has_air_suspension(self) -> bool:
+        """Return if vehicle has air suspension."""
+        return self._vehicle_data.get("vehicle_state", {}).get("has_air_suspension")
+
+    @property
+    def has_ludicrous_mode(self) -> bool:
+        """Return if vehicle has ludicrous mode."""
+        return self._vehicle_data.get("vehicle_state", {}).get("has_ludicrous_mode")
+
+    @property
+    def has_seat_heating(self) -> bool:
+        """Return if vehicle has seat heating."""
+        return self._vehicle_data.get("vehicle_state", {}).get("has_seat_heating")
+
+    @property
+    def hood_state(self) -> str:
+        """Return hood state."""
+        return self._vehicle_data.get("vehicle_state", {}).get("hood_state")
+
+    @property
+    def is_user_present(self) -> bool:
+        """Return if user is present."""
+        return self._vehicle_data.get("vehicle_state", {}).get("is_user_present")
+
+    @property
+    def last_autopark_error(self) -> str:
+        """Return last autopark error."""
+        return self._vehicle_data.get("vehicle_state", {}).get("last_autopark_error")
+
+    @property
+    def left_drive_unit(self) -> str:
+        """Return left drive unit."""
+        return self._vehicle_data.get("vehicle_state", {}).get("left_drive_unit")
+
+    @property
+    def left_drive_unit_version(self) -> str:
+        """Return left drive unit version."""
+        return self._vehicle_data.get("vehicle_state", {}).get(
+            "left_drive_unit_version"
+        )
+
+    @property
+    def left_seat_belt_status(self) -> int:
+        """Return left seat belt status."""
+        return self._vehicle_data.get("vehicle_state", {}).get("left_seat_belt_status")
+
+    @property
+    def left_seat_cooler(self) -> int:
+        """Return left seat cooler level."""
+        return self._vehicle_data.get("vehicle_state", {}).get("left_seat_cooler")
+
+    @property
+    def left_seat_heat_level(self) -> int:
+        """Return left seat heat level."""
+        return self._vehicle_data.get("vehicle_state", {}).get("left_seat_heat_level")
+
+    @property
+    def left_seat_heater(self) -> int:
+        """Return left seat heater level."""
+        return self._vehicle_data.get("vehicle_state", {}).get("left_seat_heater")
+
+    @property
+    def left_steering_wheel_heat(self) -> int:
+        """Return left steering wheel heat level."""
+        return self._vehicle_data.get("vehicle_state", {}).get("left_steering_wheel_heat")
+
+    @property
+    def left_steering_wheel_heater(self) -> bool:
+        """Return if left steering wheel heater available."""
+        return self._vehicle_data.get("vehicle_state", {}).get(
+            "left_steering_wheel_heater"
+        )
+
+    @property
+    def media_state(self) -> dict:
+        """Return media state."""
+        return self._vehicle_data.get("vehicle_state", {}).get("media_state")
+
+    @property
+    def met(self) -> str:
+        """Return MET (motor/drivetrain identifier)."""
+        return self._vehicle_data.get("vehicle_state", {}).get("met")
+
+    @property
+    def minor_version(self) -> int:
+        """Return minor software version."""
+        return self._vehicle_data.get("vehicle_state", {}).get("minor_version")
+
+    @property
+    def misc_state(self) -> int:
+        """Return misc state."""
+        return self._vehicle_data.get("vehicle_state", {}).get("misc_state")
+
+    @property
+    def model_name(self) -> str:
+        """Return model name."""
+        return self._vehicle_data.get("vehicle_state", {}).get("model_3")
+
+    @property
+    def mp_body_type(self) -> str:
+        """Return MP body type."""
+        return self._vehicle_data.get("vehicle_state", {}).get("mp_body_type")
+
+    @property
+    def mute_footwell_lights(self) -> bool:
+        """Return if footwell lights are muted."""
+        return self._vehicle_data.get("vehicle_state", {}).get("mute_footwell_lights")
+
+    @property
+    def odometer_unit(self) -> str:
+        """Return odometer unit."""
+        return self._vehicle_data.get("vehicle_state", {}).get("odometer_unit")
+
+    @property
+    def opened_doors(self) -> list:
+        """Return list of open door names."""
+        return self._vehicle_data.get("vehicle_state", {}).get("opened_doors")
+
+    @property
+    def passenger_seat_belt_status(self) -> int:
+        """Return passenger seat belt status."""
+        return self._vehicle_data.get("vehicle_state", {}).get(
+            "passenger_seat_belt_status"
+        )
+
+    @property
+    def perf_mode(self) -> bool:
+        """Return performance mode state."""
+        return self._vehicle_data.get("vehicle_state", {}).get("perf_mode")
+
+    @property
+    def powertrain(self) -> str:
+        """Return powertrain type."""
+        return self._vehicle_data.get("vehicle_state", {}).get("powertrain")
+
+    @property
+    def power_reading_left(self) -> int:
+        """Return left power reading."""
+        return self._vehicle_data.get("vehicle_state", {}).get("power_reading_left")
+
+    @property
+    def power_reading_right(self) -> int:
+        """Return right power reading."""
+        return self._vehicle_data.get("vehicle_state", {}).get("power_reading_right")
+
+    @property
+    def power_state(self) -> str:
+        """Return power state (Drive, Charge, Sleep)."""
+        return self._vehicle_data.get("vehicle_state", {}).get("power_state")
+
+    @property
+    def rear_drive_unit(self) -> str:
+        """Return rear drive unit."""
+        return self._vehicle_data.get("vehicle_state", {}).get("rear_drive_unit")
+
+    @property
+    def rear_drive_unit_version(self) -> str:
+        """Return rear drive unit version."""
+        return self._vehicle_data.get("vehicle_state", {}).get(
+            "rear_drive_unit_version"
+        )
+
+    @property
+    def rear_seat_type(self) -> str:
+        """Return rear seat type."""
+        return self._vehicle_data.get("vehicle_state", {}).get("rear_seat_type")
+
+    @property
+    def rear_seats(self) -> str:
+        """Return rear seats configuration."""
+        return self._vehicle_data.get("vehicle_state", {}).get("rear_seats")
+
+    @property
+    def rear_trunk_open(self) -> int:
+        """Return rear trunk open state."""
+        return self._vehicle_data.get("vehicle_state", {}).get("rear_trunk_open")
+
+    @property
+    def rear_view_mirror_on_rtc(self) -> bool:
+        """Return if rear view mirror on RTC."""
+        return self._vehicle_data.get("vehicle_state", {}).get(
+            "rear_view_mirror_on_rtc"
+        )
+
+    @property
+    def remote_start_enabled(self) -> bool:
+        """Return if remote start is enabled."""
+        return self._vehicle_data.get("vehicle_state", {}).get("remote_start_enabled")
+
+    @property
+    def remote_start_supported(self) -> bool:
+        """Return if remote start is supported."""
+        return self._vehicle_data.get("vehicle_state", {}).get("remote_start_supported")
+
+    @property
+    def right_drive_unit(self) -> str:
+        """Return right drive unit."""
+        return self._vehicle_data.get("vehicle_state", {}).get("right_drive_unit")
+
+    @property
+    def right_drive_unit_version(self) -> str:
+        """Return right drive unit version."""
+        return self._vehicle_data.get("vehicle_state", {}).get(
+            "right_drive_unit_version"
+        )
+
+    @property
+    def right_seat_belt_status(self) -> int:
+        """Return right seat belt status."""
+        return self._vehicle_data.get("vehicle_state", {}).get("right_seat_belt_status")
+
+    @property
+    def right_seat_cooler(self) -> int:
+        """Return right seat cooler level."""
+        return self._vehicle_data.get("vehicle_state", {}).get("right_seat_cooler")
+
+    @property
+    def right_seat_heat_level(self) -> int:
+        """Return right seat heat level."""
+        return self._vehicle_data.get("vehicle_state", {}).get("right_seat_heat_level")
+
+    @property
+    def right_seat_heater(self) -> int:
+        """Return right seat heater level."""
+        return self._vehicle_data.get("vehicle_state", {}).get("right_seat_heater")
+
+    @property
+    def right_steering_wheel_heat(self) -> int:
+        """Return right steering wheel heat level."""
+        return self._vehicle_data.get("vehicle_state", {}).get("right_steering_wheel_heat")
+
+    @property
+    def right_steering_wheel_heater(self) -> bool:
+        """Return if right steering wheel heater available."""
+        return self._vehicle_data.get("vehicle_state", {}).get(
+            "right_steering_wheel_heater"
+        )
+
+    @property
+    def roof_color(self) -> str:
+        """Return roof color."""
+        return self._vehicle_data.get("vehicle_state", {}).get("roof_color")
+
+    @property
+    def roof_state(self) -> str:
+        """Return roof state."""
+        return self._vehicle_data.get("vehicle_state", {}).get("roof_state")
+
+    @property
+    def seat_type(self) -> str:
+        """Return seat type."""
+        return self._vehicle_data.get("vehicle_state", {}).get("seat_type")
+
+    @property
+    def service_mode(self) -> bool:
+        """Return if vehicle is in service mode."""
+        return self._vehicle_data.get("vehicle_state", {}).get("service_mode")
+
+    @property
+    def service_mode_plus(self) -> bool:
+        """Return if vehicle is in service mode plus."""
+        return self._vehicle_data.get("vehicle_state", {}).get("service_mode_plus")
+
+    @property
+    def set_favorite_available(self) -> bool:
+        """Return if set favorite is available."""
+        return self._vehicle_data.get("vehicle_state", {}).get("set_favorite_available")
+
+    @property
+    def side_mirror_heaters(self) -> bool:
+        """Return if side mirror heaters available."""
+        return self._vehicle_data.get("vehicle_state", {}).get("side_mirror_heaters")
+
+    @property
+    def side_mirror_state(self) -> str:
+        """Return side mirror state."""
+        return self._vehicle_data.get("vehicle_state", {}).get("side_mirror_state")
+
+    @property
+    def steering_angle(self) -> float:
+        """Return steering angle in degrees."""
+        return self._vehicle_data.get("vehicle_state", {}).get("steering_angle")
+
+    @property
+    def steering_wheel_type(self) -> str:
+        """Return steering wheel type."""
+        return self._vehicle_data.get("vehicle_state", {}).get("steering_wheel_type")
+
+    @property
+    def sun_roof_installed(self) -> bool:
+        """Return if sunroof is installed."""
+        return self._vehicle_data.get("vehicle_state", {}).get("sun_roof_installed")
+
+    @property
+    def sun_roof_percent_open(self) -> int:
+        """Return sunroof percent open."""
+        return self._vehicle_data.get("vehicle_state", {}).get("sun_roof_percent_open")
+
+    @property
+    def touchscreen_enabled(self) -> bool:
+        """Return if touchscreen is enabled."""
+        return self._vehicle_data.get("vehicle_state", {}).get("touchscreen_enabled")
+
+    @property
+    def touchscreen_version(self) -> str:
+        """Return touchscreen version."""
+        return self._vehicle_data.get("vehicle_state", {}).get("touchscreen_version")
+
+    @property
+    def trunk(self) -> int:
+        """Return trunk open state."""
+        return self._vehicle_data.get("vehicle_state", {}).get("trunk")
+
+    @property
+    def trunk_state(self) -> str:
+        """Return trunk state."""
+        return self._vehicle_data.get("vehicle_state", {}).get("trunk_state")
+
+    @property
+    def turn_signal_stat(self) -> int:
+        """Return turn signal state."""
+        return self._vehicle_data.get("vehicle_state", {}).get("turn_signal_stat")
+
+    @property
+    def two_hand_regen(self) -> bool:
+        """Return if two hand regen is available."""
+        return self._vehicle_data.get("vehicle_state", {}).get("two_hand_regen")
+
+    @property
+    def universal_home_bridge_device_count(self) -> int:
+        """Return universal home bridge device count."""
+        return self._vehicle_data.get("vehicle_state", {}).get(
+            "universal_home_bridge_device_count"
+        )
+
+    @property
+    def updates_available(self) -> bool:
+        """Return if updates are available."""
+        return self._vehicle_data.get("vehicle_state", {}).get("updates_available")
+
+    @property
+    def user_notes(self) -> str:
+        """Return user notes."""
+        return self._vehicle_data.get("vehicle_state", {}).get("user_notes")
+
+    @property
+    def utc_offset_s(self) -> int:
+        """Return UTC offset in seconds."""
+        return self._vehicle_data.get("vehicle_state", {}).get("utc_offset_s")
+
+    @property
+    def vehicle_color(self) -> str:
+        """Return vehicle color."""
+        return self._vehicle_data.get("vehicle_state", {}).get("vehicle_color")
+
+    @property
+    def vehicle_name(self) -> str:
+        """Return vehicle name."""
+        return self._vehicle_data.get("vehicle_state", {}).get("vehicle_name")
+
+    @property
+    def vehicle_self_diagnostics_available(self) -> bool:
+        """Return if vehicle self diagnostics available."""
+        return self._vehicle_data.get("vehicle_state", {}).get(
+            "vehicle_self_diagnostics_available"
+        )
+
+    @property
+    def vehicle_speed_mph(self) -> float:
+        """Return vehicle speed in mph."""
+        return self._vehicle_data.get("vehicle_state", {}).get("vehicle_speed_mph")
+
+    @property
+    def vmotion_state(self) -> int:
+        """Return vmotion state."""
+        return self._vehicle_data.get("vehicle_state", {}).get("vmotion_state")
+
+    @property
+    def wh_type(self) -> str:
+        """Return wheel type."""
+        return self._vehicle_data.get("vehicle_state", {}).get("wh_type")
+
+    @property
+    def wheel_type(self) -> str:
+        """Return wheel type."""
+        return self._vehicle_data.get("vehicle_state", {}).get("wheel_type")
+
+    @property
+    def windows_open(self) -> list:
+        """Return list of open window names."""
+        return self._vehicle_data.get("vehicle_state", {}).get("windows_open")
+
+    @property
+    def windshield_wipers(self) -> int:
+        """Return windshield wiper state."""
+        return self._vehicle_data.get("vehicle_state", {}).get("windshield_wipers")
+
+    @property
+    def wiper_blade_defrost(self) -> bool:
+        """Return wiper blade defrost state."""
+        return self._vehicle_data.get("vehicle_state", {}).get("wiper_blade_defrost")
 
     @property
     def is_auto_seat_climate_left(self) -> bool:
@@ -893,7 +1517,7 @@ class TeslaCar:
         if self.data_available:
             return self._vehicle_data.get("climate_state", {}).get(seat_id)
         return None
-    
+
     async def remote_seat_cooler_request(self, level: int, seat_id: int) -> None:
         """Send command to change seat cooler.
 
@@ -913,7 +1537,7 @@ class TeslaCar:
         if data and data["response"]["result"] is True:
             params = {f"seat_fan_front_{SEAT_ID_MAP[seat_id]}": level}
             self._vehicle_data["climate_state"].update(params)
-    
+
     def get_seat_cooler_status(self, seat_id: int) -> int:
         """Return status of seat heater for a given seat."""
         seat_id = f"seat_fan_front_{SEAT_ID_MAP[seat_id]}"
@@ -1012,7 +1636,7 @@ class TeslaCar:
                 "is_climate_on": True,
             }
             self._vehicle_data["climate_state"].update(params)
-    
+
     async def remote_auto_seat_climate_request(
         self, seat_id: int, enable: bool
     ) -> None:

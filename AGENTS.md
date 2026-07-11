@@ -80,7 +80,7 @@ Low-level HTTP and WebSocket with OAuth authentication.
 ### 2. Controller (controller.py)
 High-level orchestration, caching, and polling.
 - **Key responsibility**: Vehicle/site management, polling throttling
-- **Key methods**: `connect()`, `get_vehicles()`, `update()`, `register_websocket_callback()`
+- **Key methods**: `connect()`, `generate_car_objects()`, `update()`, `register_websocket_callback()`
 - **Polling strategy**: Adaptive intervals (60s driving, 300s parked, 660s sleeping)
 
 ### 3. TeslaCar (car.py)
@@ -129,7 +129,8 @@ async with AsyncClient() as session:
         password="password",
     )
     await controller.connect()
-    vehicles = await controller.get_vehicles()
+    await controller.generate_car_objects()
+    vehicles = list(controller.cars.values())
 ```
 
 ### Vehicle Commands
@@ -174,7 +175,7 @@ car.state                 # "online", "offline", "sleeping"
 ### Energy Management
 
 ```python
-sites = await controller.get_energysites()
+sites = list(controller.energysites.values())
 site = sites[0]
 
 site.solar_power          # Watts
@@ -223,7 +224,8 @@ except TeslaException as e:
 async def on_update(msg):
     print(f"Update: {msg}")
 
-await controller.register_websocket_callback(on_update)
+# register_websocket_callback is synchronous; it returns the listener index
+controller.register_websocket_callback(on_update)
 # Now receive live vehicle updates via WebSocket
 ```
 
