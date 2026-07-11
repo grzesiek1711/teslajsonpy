@@ -170,4 +170,150 @@ async def test_set_export_rule(monkeypatch):
     assert await _energysite.set_export_rule("pv_only") is None
 
 
+@pytest.mark.asyncio
+async def test_solar_site_data_available(monkeypatch):
+    """Test SolarSite data_available property."""
+    TeslaMock(monkeypatch)
+    _controller = Controller(None)
+    await _controller.connect()
+    await _controller.generate_energysite_objects()
+
+    _solar_site = _controller.energysites[12345]
+    
+    # Test with data
+    assert _solar_site.data_available is True
+    
+    # Test without data
+    _solar_site._site_data = {}
+    assert _solar_site.data_available is False
+
+
+@pytest.mark.asyncio
+async def test_powerwall_site_energy_left_no_nameplate(monkeypatch):
+    """Test PowerwallSite energy_left when nameplate_energy is None."""
+    TeslaMock(monkeypatch)
+    _controller = Controller(None)
+    await _controller.connect()
+    await _controller.generate_energysite_objects()
+
+    _powerwall_site = _controller.energysites[67890]
+    
+    # Remove nameplate_energy to test None case
+    _powerwall_site._site_config.pop("nameplate_energy", None)
+    assert _powerwall_site.energy_left is None
+
+
+@pytest.mark.asyncio
+async def test_solar_powerwall_site_properties(monkeypatch):
+    """Test SolarPowerwallSite additional properties."""
+    TeslaMock(monkeypatch)
+    _controller = Controller(None)
+    await _controller.connect()
+    await _controller.generate_energysite_objects()
+
+    _solar_powerwall_site = _controller.energysites[67890]
+    
+    # Test that operation_mode property works (default_real_mode)
+    _solar_powerwall_site._site_config["default_real_mode"] = "autonomous"
+    assert _solar_powerwall_site.operation_mode == "autonomous"
+    
+    # Test solar_type (may be None if not in config)
+    solar_type = _solar_powerwall_site.solar_type
+    assert solar_type is None or isinstance(solar_type, str)
+    
+    # Test version  
+    version = _solar_powerwall_site.version
+    assert version is None or isinstance(version, (int, float, str))
+    
+    # Test backup_reserve_percent (may be None if not in config)
+    backup_reserve = _solar_powerwall_site.backup_reserve_percent
+    assert backup_reserve is None or isinstance(backup_reserve, int)
+
+
+@pytest.mark.asyncio
+async def test_powerwall_site_data_available(monkeypatch):
+    """Test PowerwallSite data_available property."""
+    TeslaMock(monkeypatch)
+    _controller = Controller(None)
+    await _controller.connect()
+    await _controller.generate_energysite_objects()
+
+    _powerwall_site = _controller.energysites[67890]
+    
+    # Test with data
+    assert _powerwall_site.data_available is True
+    
+    # Test without data
+    _powerwall_site._site_summary = {}
+    assert _powerwall_site.data_available is False
+
+
+@pytest.mark.asyncio
+async def test_solar_powerwall_site_grid_charging(monkeypatch):
+    """Test SolarPowerwallSite grid_charging property."""
+    TeslaMock(monkeypatch)
+    _controller = Controller(None)
+    await _controller.connect()
+    await _controller.generate_energysite_objects()
+
+    _solar_powerwall_site = _controller.energysites[67890]
+    
+    # Ensure components dict exists
+    if "components" not in _solar_powerwall_site._site_config:
+        _solar_powerwall_site._site_config["components"] = {}
+    
+    # Test grid_charging when disallow_charge_from_grid_with_solar_installed is False
+    _solar_powerwall_site._site_config["components"][
+        "disallow_charge_from_grid_with_solar_installed"
+    ] = False
+    assert _solar_powerwall_site.grid_charging is True
+    
+    # Test grid_charging when disallow_charge_from_grid_with_solar_installed is True
+    _solar_powerwall_site._site_config["components"][
+        "disallow_charge_from_grid_with_solar_installed"
+    ] = True
+    assert _solar_powerwall_site.grid_charging is False
+
+
+@pytest.mark.asyncio
+async def test_solar_powerwall_site_export_rule(monkeypatch):
+    """Test SolarPowerwallSite export_rule property."""
+    TeslaMock(monkeypatch)
+    _controller = Controller(None)
+    await _controller.connect()
+    await _controller.generate_energysite_objects()
+
+    _solar_powerwall_site = _controller.energysites[67890]
+    
+    # Ensure components dict exists
+    if "components" not in _solar_powerwall_site._site_config:
+        _solar_powerwall_site._site_config["components"] = {}
+    
+    # Test with export rule set
+    _solar_powerwall_site._site_config["components"]["customer_preferred_export_rule"] = "pv_only"
+    assert _solar_powerwall_site.export_rule == "pv_only"
+    
+    # Test without export rule (should return None)
+    del _solar_powerwall_site._site_config["components"]["customer_preferred_export_rule"]
+    assert _solar_powerwall_site.export_rule is None
+
+
+@pytest.mark.asyncio
+async def test_powerwall_site_energy_left_with_nameplate(monkeypatch):
+    """Test PowerwallSite energy_left calculation with nameplate_energy."""
+    TeslaMock(monkeypatch)
+    _controller = Controller(None)
+    await _controller.connect()
+    await _controller.generate_energysite_objects()
+
+    _powerwall_site = _controller.energysites[67890]
+    
+    # Set nameplate_energy and percentage_charged for calculation
+    _powerwall_site._site_config["nameplate_energy"] = 14070
+    _powerwall_site._site_summary["percentage_charged"] = 50
+    
+    expected = round(14070 * 50 / 100)
+    assert _powerwall_site.energy_left == expected
+
+
 # Test reponse with "grid_status" of "Unknown"

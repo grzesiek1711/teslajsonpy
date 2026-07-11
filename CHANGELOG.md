@@ -1,6 +1,34 @@
 # CHANGELOG
 
+## v3.14.0 (2026-07-11)
 
+### Features
+
+* feat: add example application demonstrating teslajsonpy usage ([`2829658`](https://github.com/zabuldon/teslajsonpy/commit/2829658))
+  - Add comprehensive example application (main.py) showing read-only operations
+  - Demonstrate OAuth token authentication with AsyncClient HTTP/2
+  - Show real-time WebSocket monitoring and error handling patterns
+  - Include full README with setup, best practices, and troubleshooting
+
+* feat: add climate control properties and update documentation ([`6098507`](https://github.com/zabuldon/teslajsonpy/commit/6098507))
+  - Add 20+ new climate state properties to TeslaCar class:
+    - Temperature settings (left_temp_setting, right_temp_setting)
+    - Climate system status (is_preconditioning, is_auto_conditioning_on, etc.)
+    - Seat heater/cooler levels for all seats including third row
+    - Defroster and battery heater states
+    - Cabin overheat protection status
+  - Update AGENTS.md with corrected API method references
+  - Update README.md with authentication notes and HTTP/2 requirements
+
+### Documentation
+
+* docs: AI-ready documentation added ([`239969c`](https://github.com/zabuldon/teslajsonpy/commit/239969c))
+
+### Maintenance
+
+* test: Improved test coverage ([`5a7d9ba`](https://github.com/zabuldon/teslajsonpy/commit/5a7d9ba))
+
+---
 
 ## v3.9.1 (2023-07-25)
 
